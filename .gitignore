@@ -1,0 +1,7 @@
+.venv
+.vscode
+html_test
+error_log
+demo.py
+__pycache__
+.env
