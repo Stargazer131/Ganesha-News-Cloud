@@ -285,18 +285,6 @@ def update_database():
         temp_collection.drop()
 
 
-def notify_server(host='127.0.0.1', port='8000'):
-    url = f"http://{host}:{port}/reload-model"
-    try:
-        response = requests.post(url)
-        if response.status_code == 200:
-            print('Update model successfully')
-        else:
-            print('Fail to update model')
-    except:
-        print('Server not responding')
-
-
 def update_new_articles(vnexpress=True, dantri=True, vietnamnet=True, vtcnews=True, limit=10 ** 9):
     print('\nStep 1: Crawl new articles')
     crawl_new_articles(vnexpress, dantri, vietnamnet, vtcnews, limit)

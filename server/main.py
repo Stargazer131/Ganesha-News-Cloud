@@ -45,7 +45,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/articles/", response_model=list[ShortArticle])
+@app.get("/articles", response_model=list[ShortArticle])
 def get_articles_by_category(
     page: Annotated[int, Query(ge=1, le=20)] = 1,
     limit: Annotated[int, Query(ge=10, le=40)] = 20,
@@ -81,7 +81,7 @@ def get_article_and_recommendations_by_id(
     return ArticleRecommendation(article=article, recommendations=recommendations)
 
 
-@app.get("/search/", response_model=SearchResponse)
+@app.get("/search", response_model=SearchResponse)
 def get_articles_by_keyword(
     keyword: str,
     limit: Annotated[int, Query(ge=1, le=50)] = 30,
@@ -106,11 +106,4 @@ def get_articles_by_keyword(
 
     articles = [ShortArticle(**article) for article in combined_articles[start_index : end_index]]
     return SearchResponse(articles=articles, total=min(len(combined_articles), limit * 50))
-
-
-@app.get("/reload-model", include_in_schema=False)
-def reload_model():    
-    global neighbor_graph
-    neighbor_graph = load_neighbor_graph()
-    return {"message": "Model reloaded successfully"}
 
