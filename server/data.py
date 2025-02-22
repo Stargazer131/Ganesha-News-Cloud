@@ -59,9 +59,9 @@ def save_topic_distributions(matrix: np.ndarray):
   np.save('data/ann_model/topic_distributions.npy', matrix)
 
 
-def load_topic_distributions() -> np.ndarray:
+def load_topic_distributions(filepath='data/ann_model/topic_distributions.npy') -> np.ndarray:
     try:
-        return np.load('data/ann_model/topic_distributions.npy')
+        return np.load(filepath)
     except:
         return np.array([])
 

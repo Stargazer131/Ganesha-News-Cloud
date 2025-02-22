@@ -1,8 +1,4 @@
 from server import data
-from gensim.models import LdaModel
-from gensim.corpora import Dictionary
-from gensim.matutils import sparse2full
-import random
 import numpy as np
 from server.updater import combined_distance
 from pynndescent import NNDescent
@@ -23,21 +19,13 @@ def init_database(articles=1000):
             query['category'] = category
             articles.extend(collection.find(query).sort(sort_criteria).limit(articles_per_category))
         
-        random.shuffle(articles)
-        lda_model = LdaModel.load('data/lda_model/lda_model')
-        dictionary = Dictionary.load('data/lda_model/dictionary')
-
-        processed_documents = []
+        articles.sort(key=lambda x: x['index'])
+        article_indices = {doc['index'] for doc in articles}
         for index, doc in enumerate(articles):
-            title = data.process_sentence(doc['title'])
-            description = data.process_paragraph(doc['description'])
-            content = data.process_content(doc['content'])
-            processed_documents.append(title + description + content)
             doc['index'] = index
-        
-        corpus = [dictionary.doc2bow(doc) for doc in processed_documents]
-        lda_corpus = lda_model[corpus]
-        topic_distributions = np.array([sparse2full(vec, lda_model.num_topics) for vec in lda_corpus])
+
+        loaded_topic_distributions = data.load_topic_distributions('D:/Project/VSC/be/data/ann_model/topic_distributions.npy')
+        topic_distributions = np.array([row for index, row in enumerate(loaded_topic_distributions) if index in article_indices])
         nndescent = NNDescent(topic_distributions, metric=combined_distance)
         data.save_neighbor_graph(nndescent.neighbor_graph[0])
 
@@ -51,6 +39,6 @@ def init_database(articles=1000):
 
 
 if __name__ == '__main__':
-    init_database(50000)
+    init_database(100000)
 
     
