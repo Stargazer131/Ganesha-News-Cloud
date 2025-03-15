@@ -14,7 +14,7 @@ class DantriCrawler:
     categories = [
         "xa-hoi", "phap-luat", "the-gioi", "kinh-doanh",
         "giai-tri", "the-thao", "giao-duc", "suc-khoe",
-        "du-lich", "o-to-xe-may", "khoa-hoc-cong-nghe", "suc-manh-so"
+        "du-lich", "o-to-xe-may", "khoa-hoc", "cong-nghe"
     ]
 
     @staticmethod
@@ -37,7 +37,7 @@ class DantriCrawler:
             return 'thoi-su'
         elif category in ['o-to-xe-may']:
             return 'xe'
-        elif category in ['suc-manh-so']:
+        elif category in ['khoa-hoc', 'cong-nghe']:
             return 'khoa-hoc-cong-nghe'
         else:
             return category

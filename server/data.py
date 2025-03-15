@@ -25,7 +25,7 @@ def connect_to_mongo(cloud=True):
     if cloud:
         username = os.getenv("USERNAME")
         password = os.getenv("PASSWORD")
-        connect_str = f"mongodb+srv://{username}:{password}@cluster0.zsldwde.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+        connect_str = f"mongodb+srv://{username}:{password}@ganeshanews.ygqol.mongodb.net/?retryWrites=true&w=majority&appName=GaneshaNews"
         return MongoClient(connect_str, server_api=ServerApi('1'))
     else:
         host = 'localhost'
